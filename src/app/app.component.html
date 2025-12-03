@@ -1,7 +1,17 @@
-<div style="text-align: center; margin-top: 50px">
-  <h1>Hello, {{ myName }}!</h1>
+<div style="text-align: center; font-family: sans-serif; margin-top: 50px">
+  <h1>{{ myName }}'s Skill Set</h1>
 
-  <button (click)="changeName()" style="padding: 10px; font-size: 16px">
-    Click Me
-  </button>
+  <button (click)="changeName()">Update Person Name</button>
+  <button (click)="addSkill()">Add Angular</button>
+
+  <hr />
+
+  <h3>My Skills:</h3>
+  <ul style="list-style-type: none; padding: 0">
+    @for (skill of skills; track skill) {
+    <li style="background: #f0f0f0; margin: 5px; padding: 10px">
+      {{ skill }}
+    </li>
+    }
+  </ul>
 </div>
