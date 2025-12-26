@@ -2,16 +2,41 @@
   <h1>{{ myName }}'s Skill Set</h1>
 
   <button (click)="changeName()">Update Person Name</button>
-  <button (click)="addSkill()">Add Angular</button>
+
+  <input
+    #newSkill
+    type="text"
+    placeholder="Type a skill..."
+    style="padding: 10px"
+    type="text"
+  />
+  <button (click)="addSkill(newSkill.value); newSkill.value = ''">
+    Add to List
+  </button>
 
   <hr />
 
   <h3>My Skills:</h3>
+
   <ul style="list-style-type: none; padding: 0">
-    @for (skill of skills; track skill) {
-    <li style="background: #f0f0f0; margin: 5px; padding: 10px">
-      {{ skill }}
+    @for (skill of skills; track skill; let i = $index) {
+
+    <li
+      style="
+        background: #f0f0f0;
+        margin: 5px;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+      "
+    >
+      <span>{{ skill }}</span>
+
+      <button (click)="removeSkill(i)" style="color: red; cursor: pointer">
+        X
+      </button>
     </li>
+
     }
   </ul>
 </div>

@@ -10,13 +10,19 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent {
   myName = 'Ozair';
-  skills = ['HTML', 'CSS', 'JavaScript', 'jQuery'];
+  skills = ['HTML', 'CSS', 'JavaScript', 'jQuery', 'Angular'];
 
   changeName() {
     this.myName = 'Angular Expert';
   }
 
-  addSkill() {
-    this.skills.push('Angular v17');
+  addSkill(name: string) {
+    if (name) {
+      this.skills.push(name);
+    }
+  }
+
+  removeSkill(index: number) {
+    this.skills.splice(index, 1);
   }
 }
