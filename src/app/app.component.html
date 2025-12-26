@@ -1,26 +1,26 @@
 <div style="text-align: center; font-family: sans-serif; margin-top: 50px">
-  <h1>{{ myName }}'s Skill Set</h1>
-
-  <button (click)="changeName()">Update Person Name</button>
+  <h1>Full Stack Skills App</h1>
 
   <input
     #newSkill
     type="text"
     placeholder="Type a skill..."
     style="padding: 10px"
-    type="text"
   />
-  <button (click)="addSkill(newSkill.value); newSkill.value = ''">
-    Add to List
+
+  <button
+    (click)="addSkill(newSkill.value); newSkill.value = ''"
+    style="padding: 10px; cursor: pointer"
+  >
+    Add to Database
   </button>
 
   <hr />
 
-  <h3>My Skills:</h3>
+  <h3>My Skills (from Spring Boot):</h3>
 
   <ul style="list-style-type: none; padding: 0">
     @for (skill of skills; track skill; let i = $index) {
-
     <li
       style="
         background: #f0f0f0;
@@ -28,15 +28,26 @@
         padding: 10px;
         display: flex;
         justify-content: space-between;
+        align-items: center;
+        width: 300px;
+        margin: 5px auto;
       "
     >
       <span>{{ skill }}</span>
 
-      <button (click)="removeSkill(i)" style="color: red; cursor: pointer">
+      <button
+        (click)="removeSkill(i)"
+        style="
+          color: white;
+          background: red;
+          border: none;
+          padding: 5px 10px;
+          cursor: pointer;
+        "
+      >
         X
       </button>
     </li>
-
     }
   </ul>
 </div>
