@@ -1,6 +1,8 @@
-import { Component, inject } from '@angular/core'; // Added 'inject'
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http'; // Import HttpClient
+import { HttpClient } from '@angular/common/http';
+// Ensure you created this file in the previous step!
+import { Skill } from './skill.model';
 
 @Component({
   selector: 'app-root',
@@ -11,46 +13,52 @@ import { HttpClient } from '@angular/common/http'; // Import HttpClient
 })
 export class AppComponent {
   myName = 'Ozair';
-  skills: string[] = [];
 
-  // Define the API URL
+  // 1. CHANGE TYPE: It holds Objects (id + name) now, not just Strings
+  skills: Skill[] = [];
+
+  errorMessage: string = '';
+
   private apiUrl = 'http://localhost:8080/api/skills';
-
-  // INJECT HTTP CLIENT
-  // This is the modern way (v14+) to get dependencies
   private http = inject(HttpClient);
 
   constructor() {
     this.fetchSkills();
   }
 
-  // 1. GET (Read)
   fetchSkills() {
-    // We expect the backend to return an array of strings: <string[]>
-    this.http.get<string[]>(this.apiUrl).subscribe({
+    // 2. GET RETURNS OBJECTS
+    this.http.get<Skill[]>(this.apiUrl).subscribe({
       next: (data) => {
-        this.skills = data; // Update the UI with data from Java
+        this.skills = data;
       },
-      error: (err) => {
-        console.error('Error connecting to Spring Boot:', err);
-      },
+      error: (err) => console.error('Error:', err),
     });
   }
 
-  // 2. POST (Create)
   addSkill(name: string) {
     if (name) {
-      // Send the name as the body
-      this.http.post<string[]>(this.apiUrl, name).subscribe((updatedList) => {
-        this.skills = updatedList; // Refresh list from server response
+      // FIX: Send an Object with a 'name' property
+      // Angular will automatically convert this to: { "name": "Java" }
+      const skillObject = { name: name };
+
+      this.http.post<Skill[]>(this.apiUrl, skillObject).subscribe({
+        next: (updatedList) => {
+          this.skills = updatedList;
+          this.errorMessage = '';
+        },
+        error: (err) => {
+          console.error(err);
+          this.errorMessage = 'Skill already exist.';
+        },
       });
     }
   }
 
-  // 3. DELETE (Delete)
-  removeSkill(index: number) {
+  // 4. DELETE BY ID (Not Index!)
+  removeSkill(id: number) {
     this.http
-      .delete<string[]>(`${this.apiUrl}/${index}`)
+      .delete<Skill[]>(`${this.apiUrl}/${id}`)
       .subscribe((updatedList) => {
         this.skills = updatedList;
       });

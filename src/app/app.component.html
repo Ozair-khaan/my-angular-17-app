@@ -15,12 +15,18 @@
     Add to Database
   </button>
 
+  @if (errorMessage) {
+  <p style="color: red; font-weight: bold; margin-top: 10px">
+    ⚠️ {{ errorMessage }}
+  </p>
+  }
+
   <hr />
 
-  <h3>My Skills (from Spring Boot):</h3>
+  <h3>My Skills</h3>
 
   <ul style="list-style-type: none; padding: 0">
-    @for (skill of skills; track skill; let i = $index) {
+    @for (skill of skills; track skill.id) {
     <li
       style="
         background: #f0f0f0;
@@ -33,10 +39,10 @@
         margin: 5px auto;
       "
     >
-      <span>{{ skill }}</span>
+      <span>{{ skill.name }}</span>
 
       <button
-        (click)="removeSkill(i)"
+        (click)="removeSkill(skill.id)"
         style="
           color: white;
           background: red;
@@ -48,6 +54,8 @@
         X
       </button>
     </li>
+    } @empty {
+    <p>No skills found. Add one!</p>
     }
   </ul>
 </div>
